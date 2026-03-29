@@ -2,7 +2,8 @@ package org.crypto.crudtest.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.crypto.crudtest.model.Item;
+import org.crypto.crudtest.dto.ItemRequest;
+import org.crypto.crudtest.dto.ItemResponse;
 import org.crypto.crudtest.service.ItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,23 +19,23 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping
-    public ResponseEntity<List<Item>> getAll() {
+    public ResponseEntity<List<ItemResponse>> getAll() {
         return ResponseEntity.ok(itemService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Item> getById(@PathVariable Long id) {
+    public ResponseEntity<ItemResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(itemService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Item> create(@Valid @RequestBody Item item) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(itemService.create(item));
+    public ResponseEntity<ItemResponse> create(@Valid @RequestBody ItemRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(itemService.create(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Item> update(@PathVariable Long id, @Valid @RequestBody Item item) {
-        return ResponseEntity.ok(itemService.update(id, item));
+    public ResponseEntity<ItemResponse> update(@PathVariable Long id, @Valid @RequestBody ItemRequest request) {
+        return ResponseEntity.ok(itemService.update(id, request));
     }
 
     @DeleteMapping("/{id}")
@@ -43,4 +44,3 @@ public class ItemController {
         return ResponseEntity.noContent().build();
     }
 }
-
